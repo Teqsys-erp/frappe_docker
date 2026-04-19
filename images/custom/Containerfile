@@ -103,7 +103,24 @@ RUN if [ -n "${APPS_JSON_BASE64}" ]; then \
     mkdir /opt/frappe && echo "${APPS_JSON_BASE64}" | base64 -d > /opt/frappe/apps.json; \
   fi
 
+# ✅ NEW: Accept GitHub token as build arg
+ARG GITHUB_TOKEN
+
+# ✅ NEW: Setup git credentials as root before switching to frappe user
+RUN if [ -n "${GITHUB_TOKEN}" ]; then \
+    git config --global credential.helper store && \
+    echo "https://x-access-token:${GITHUB_TOKEN}@github.com" > /root/.git-credentials && \
+    chmod 600 /root/.git-credentials; \
+  fi
+
 USER frappe
+
+# ✅ NEW: Setup git credentials for frappe user
+RUN if [ -n "${GITHUB_TOKEN}" ]; then \
+    git config --global credential.helper store && \
+    echo "https://x-access-token:${GITHUB_TOKEN}@github.com" > /home/frappe/.git-credentials && \
+    chmod 600 /home/frappe/.git-credentials; \
+  fi
 
 ARG FRAPPE_BRANCH=version-15
 ARG FRAPPE_PATH=https://github.com/Teqsys-erp/frappe
@@ -122,6 +139,10 @@ RUN export APP_INSTALL_ARGS="" && \
   cd /home/frappe/frappe-bench && \
   echo "{}" > sites/common_site_config.json && \
   find apps -mindepth 1 -path "*/.git" | xargs rm -fr
+
+# ✅ NEW: Clean up credentials after bench init
+RUN rm -f /home/frappe/.git-credentials && \
+    git config --global --unset credential.helper || true
 
 FROM base AS backend
 
