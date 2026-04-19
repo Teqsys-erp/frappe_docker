@@ -147,11 +147,6 @@ COPY --from=builder --chown=frappe:frappe /home/frappe/frappe-bench /home/frappe
 
 WORKDIR /home/frappe/frappe-bench
 
-RUN /home/frappe/frappe-bench/env/bin/pip install --no-cache-dir \
-    opentelemetry-distro \
-    opentelemetry-exporter-otlp-proto-http \
-    && /home/frappe/frappe-bench/env/bin/opentelemetry-bootstrap -a install
-
 VOLUME [ \
   "/home/frappe/frappe-bench/sites", \
   "/home/frappe/frappe-bench/sites/assets", \
@@ -159,7 +154,6 @@ VOLUME [ \
 ]
 
 CMD [ \
-  "/home/frappe/frappe-bench/env/bin/opentelemetry-instrument", \
   "/home/frappe/frappe-bench/env/bin/gunicorn", \
   "--chdir=/home/frappe/frappe-bench/sites", \
   "--bind=0.0.0.0:8000", \
@@ -171,4 +165,3 @@ CMD [ \
   "--preload", \
   "frappe.app:application" \
 ]
-
