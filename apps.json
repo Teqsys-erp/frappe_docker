@@ -1,0 +1,22 @@
+[
+{
+"url": "https://github.com/Teqsys-erp/erpnext.git",
+"branch": "version-15"
+},
+{
+"url": "https://github.com/Teqsys-erp/hrms.git",
+"branch": "version-15"
+},
+{
+ "url": "https://github.com/frappe/lending.git",
+ "branch": "version-15"
+},
+{
+ "url": "https://github.com/Teqsys-erp/TEQSYS-HR.git",
+ "branch": "jaihind"
+},
+{
+ "url": "https://github.com/Teqsys-erp/material_theme.git",
+ "branch": "main"
+}
+]
