@@ -12,6 +12,10 @@
  "branch": "version-16-beta"
 },
 {
+  "url": "https://github.com/Teqsys-erp/saas_theme.git",
+  "branch": "version-16"
+} 
+{
  "url": "https://github.com/Teqsys-erp/TEQSYS-HR.git",
  "branch": "jaihind"
 }
